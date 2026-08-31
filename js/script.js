@@ -111,7 +111,7 @@ confirmarTransferencia.addEventListener('click', (e) => {
   //alert('se han transferido ' + montoTransferido + 'ARS');
   registrarEnHistorial(montoTransferido, "Transferencia", new Date().toLocaleString());
 })
-
+//a
 function registrarEnHistorial(monto, tipo, fecha) {
    const transaction = {
     monto,
