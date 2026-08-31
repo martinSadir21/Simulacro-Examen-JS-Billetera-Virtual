@@ -1,120 +1,99 @@
-# 💰 Examen de JavaScript Frontend - Billetera Virtual
+# 💳 Examen: Billetera Virtual Fintech con JavaScript
 
-## 📝 Introducción
+## 📋 Objetivo del Examen
 
-**Tiempo:** 1 hora y 30 minutos  
-**Objetivo:** Desarrollar funcionalidades básicas de una billetera virtual estilo Mercado Pago utilizando JavaScript, DOM, eventos, localStorage, JSON y fetch.
+En este examen práctico deberás desarrollar una **aplicación web interactiva de billetera virtual estilo fintech**, conectando una interfaz frontend desarrollada con **HTML, CSS y JavaScript Vanilla** a un **servidor backend local en Node.js/Express**.
 
-## 📋 Temas evaluados
-- **Manipulación del DOM** - Crear elementos dinámicamente
-- **Eventos** - Manejar clicks y modales
-- **LocalStorage** - Persistencia de saldo y transacciones
-- **JSON** - Manejo de datos de transacciones
-- **Fetch** - Simulación de API de tipos de cambio
+La aplicación debe permitir:
 
-## 📂 Archivos proporcionados
+1. Consultar cotizaciones de monedas (ARS, USD, EUR, BRL, USDT) y contactos frecuentes desde el backend local.
+2. Renderizar el saldo disponible en pantalla y calcular su conversión equivalente según la divisa seleccionada.
+3. Permitir ingresar dinero, realizar transferencias con validaciones (montos positivos, saldo suficiente y destinatario no vacío) y actualizar el saldo reactivamente.
+4. Persistir el saldo y el historial de movimientos en el navegador mediante `localStorage`.
+5. Visualizar los movimientos y permitir el reinicio de la cuenta.
 
-- **index.html:** Página principal (ya funcional)
-- **styles.css:** Estilos completos
-- **app.js:** Archivo con TODOs a completar
+---
 
-## 🎯 Tareas a realizar (90 minutos)
+## 📌 Tabla de Entregas / Issues de GitHub
 
-### PARTE 1: Funcionalidad Base (45 minutos)
+Cada entrega se corresponde con un **issue automático** en tu repositorio de GitHub. Para cerrar cada issue automáticamente, incluye el commit sugerido exacto al subir tu solución a la rama principal (`main`).
 
-**1.1 Inicialización y Estado (15 puntos)**
-- Implementar localStorage para saldo
-- Implementar localStorage para transacciones
-- Cargar estado inicial de la aplicación
+| Entrega | Tarea a Realizar                                                                                            | Commit Sugerido                                                            |
+| :------ | :---------------------------------------------------------------------------------------------------------- | :------------------------------------------------------------------------- |
+| **#1**  | Vincular `css/styles.css` y `js/script.js` en `index.html`.                                                 | `feat(html): vincular css y script js al html`                             |
+| **#2**  | Consumir la API local (`/api/cotizaciones` y `/api/contactos`) usando `fetch` y `async/await`.              | `feat(js): consumir api de cotizaciones con fetch y async await`           |
+| **#3**  | Renderizar dinámicamente las divisas, el saldo formateado y el listado de transacciones en el DOM.          | `feat(js): renderizar saldo conversion y movimientos en el dom`            |
+| **#4**  | Implementar apertura/cierre de modales, ingresos, transferencias y validación de saldo.                     | `feat(js): implementar ingresos transferencias y validacion de saldos`     |
+| **#5**  | Persistir saldo y transacciones en `localStorage`, y permitir reiniciar la cuenta con `#btnResetBilletera`. | `feat(js): persistir y gestionar movimientos de billetera en localstorage` |
 
-**1.2 Manejo de Modales (15 puntos)**
-- Implementar apertura/cierre de modales ya creados en el HTML
-- Validar formularios
-- Manejar eventos de botones
+---
 
-**1.3 Operaciones Básicas (15 puntos)**
-- Implementar ingreso de dinero
-- Implementar transferencias
-- Actualizar saldo y UI
+## 🛠️ Especificación Técnica y Requerimientos
 
-### PARTE 2: Transacciones y Datos (45 minutos)
+### 1. Servidor Backend Local
 
-**2.1 Gestión de Transacciones (15 puntos)**
-- Crear estructura de datos para transacciones
-- Almacenar histórico en localStorage
-- Mostrar transacciones en la UI
+El servidor Express provisto corre en el puerto `3000` con CORS habilitado:
 
-**2.2 Validaciones (15 puntos)**
-- Validar montos positivos
-- Verificar saldo suficiente
-- Validar campos requeridos
+- **`GET http://localhost:3000/api/cotizaciones`**: Devuelve las tasas de conversión relativas a ARS.
+- **`GET http://localhost:3000/api/contactos`**: Devuelve la lista de contactos frecuentes.
+- **`POST http://localhost:3000/api/transferir`**: Simula y valida transferencias `{ monto, destinatario, saldoActual }`.
 
-**2.3 API Simulada (15 puntos)**
-- Implementar fetch en data/conversion.json
-- Convertir montos entre divisas
-- Manejar errores de API
+Para iniciar el servidor backend:
 
-**2.4 Conversión de Monedas (10 puntos)**
-- Mostrar saldo en diferentes monedas
-- Implementar selector de moneda
-- Conversión en tiempo real del saldo
+```bash
+npm start
+```
 
-## 📊 Criterios de evaluación (100 puntos)
+### 2. Elementos Clave del DOM
 
-### Funcionalidad Base (50 puntos)
-| Criterio | Puntos | Descripción |
-|----------|--------|-------------|
-| **localStorage** | 15 pts | Persistencia de datos |
-| **Modales** | 10 pts | Funcionamiento correcto |
-| **Operaciones** | 15 pts | Ingresos y transferencias |
-| **UI/UX** | 10 pts | Actualización de interfaz |
+- **`#balance`**: Encabezado donde se muestra el saldo disponible en ARS formateado (ej. `$ 15,000.00`).
+- **`#currencySelector`**: `<select>` para elegir la moneda en la cual visualizar la conversión.
+- **`#balanceConvertido`**: Párrafo donde se muestra el monto equivalente convertido.
+- **`#btnIngresar`**, **`#btnTransferir`**, **`#btnHistorial`**: Botones para abrir los modales correspondientes.
+- **`#transactionContainer`**: Contenedor donde se insertan las tarjetas de transacciones (`.transaction-item`).
+- **`#modalIngresar`**, **`#formIngreso`**, **`#montoIngreso`**, **`#confirmarIngreso`**: Componentes para acreditar saldo.
+- **`#modalTransferir`**, **`#formTransferencia`**, **`#destinatario`**, **`#montoTransferencia`**, **`#confirmarTransferencia`**: Componentes para enviar dinero.
+- **`#modalHistorial`**, **`#btnResetBilletera`**: Modal para gestionar y reiniciar la cuenta.
 
-### Gestión de Datos (50 puntos)
-| Criterio | Puntos | Descripción |
-|----------|--------|-------------|
-| **Transacciones** | 20 pts | Estructura y almacenamiento |
-| **Validaciones** | 15 pts | Manejo de errores |
-| **API** | 15 pts | Implementación fetch |
-| **Conversión** | 10 pts | Cambio de monedas |
+### 3. Almacenamiento Local (`localStorage`)
 
-## ✅ Funcionalidades mínimas requeridas
+- **Claves obligatorias**: `'billetera_saldo'` y `'billetera_movimientos'`
+- **Estructura de movimientos**: Arreglo de objetos con `{ tipo: 'Ingreso'|'Transferencia', detalle, monto, fecha }`.
+- Utilizar `JSON.stringify()` para guardar y `JSON.parse()` para leer.
 
-1. ✅ Persistencia de saldo en localStorage
-2. ✅ Ingresar dinero a la cuenta
-3. ✅ Realizar transferencias
-4. ✅ Mostrar historial de transacciones
-5. ✅ Validaciones de operaciones
-6. ✅ Modales funcionales
-7. ✅ Actualización en tiempo real
-8. ✅ Visualización multi-moneda
+---
 
-## 🔧 Tecnologías permitidas
+## 🧪 Comandos de Prueba y Autoevaluación
 
-- **JavaScript ES6+**
-- **APIs nativas:** localStorage, fetch
-- **DOM API**
-- **Event Handling**
+Antes de entregar, podés autoevaluar tu trabajo localmente:
 
-## 📚 Recursos permitidos
+```bash
+# Ejecutar todas las pruebas automáticas
+npm test
 
-- Documentación MDN
-- Consultas de sintaxis
-- **NO permitido:** Frameworks o librerías
+# Ejecutar una prueba individual
+npm run test:link
+npm run test:fetch
+npm run test:render
+npm run test:events
+npm run test:storage
 
-## ⏱️ Distribución de tiempo sugerida
+# Validar estilo y calidad de código
+npm run lint
+npm run format:check
+```
 
-- **15 min:** Análisis y planificación
-- **30 min:** Funcionalidad base
-- **30 min:** Gestión de transacciones
-- **15 min:** Testing y ajustes
+---
 
-## 💡 Consejos finales
+## 🚀 Instrucciones para la Ejecución Local
 
-1. **Lee todos los TODOs** antes de empezar
-2. **Implementa primero** la funcionalidad básica
-3. **Usa console.log()** para debug
-4. **Prueba cada función** antes de avanzar
-5. **Verifica localStorage** constantemente
-6. **Maneja los errores** apropiadamente
-
-Éxito en tu examen! 🚀
+1. Instalar dependencias:
+   ```bash
+   npm install
+   ```
+2. Iniciar el servidor local:
+   ```bash
+   npm start
+   ```
+3. Abrir `index.html` en el navegador (usando la extensión **Live Server** de VS Code).
+4. Abrir la consola de herramientas de desarrollador (**F12**) para verificar peticiones de red y depurar posibles errores.

@@ -1,0 +1,15 @@
+{
+  "monedaBase": "ARS",
+  "tasas": {
+    "ARS": 1.0,
+    "USD": 0.0008,
+    "EUR": 0.00074,
+    "BRL": 0.0045,
+    "USDT": 0.0008
+  },
+  "contactos": [
+    { "id": 1, "nombre": "María Gómez", "alias": "maria.mp" },
+    { "id": 2, "nombre": "Lucas Rodríguez", "alias": "lucas.dev" },
+    { "id": 3, "nombre": "Facultad UCSE", "alias": "ucse.arancel" }
+  ]
+}

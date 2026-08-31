@@ -1,75 +1,132 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Billetera Virtual - Examen de JavaScript</title>
+    <link rel="stylesheet" href="./css/styles.css" />
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+      rel="stylesheet"
+    />
+  </head>
 
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Billetera Virtual - Examen JS</title>
-  <link rel="stylesheet" href="./css/styles.css">
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-</head>
+  <body>
+    <div class="wallet-container">
+      <header>
+        <h1>💳 Mi Billetera Virtual</h1>
+        <div class="balance">
+          <span>Saldo disponible</span>
+          <div class="balance-container">
+            <h2 id="balance">$ 0.00</h2>
+            <select id="currencySelector" class="currency-select">
+              <option value="ARS">ARS ($)</option>
+            </select>
+          </div>
+          <p class="balance-convertido" id="balanceConvertido">≈ 0.00 ARS</p>
+        </div>
+      </header>
 
-<body>
-  <div class="wallet-container">
-    <header>
-      <h1>Mi Billetera Virtual</h1>
-      <div class="balance">
-        <span>Saldo disponible</span>
-        <div class="balance-container">
-          <h2 id="balance">$ 0.00</h2>
-          <select id="currencySelector" class="currency-select">
-            <option value="USD">USD</option>
-            <option value="EUR">EUR</option>
-            <option value="ARS">ARS</option>
-          </select>
+      <section class="actions">
+        <button type="button" id="btnIngresar" class="btn-action">
+          <i class="fas fa-arrow-down"></i>
+          Ingresar Dinero
+        </button>
+        <button type="button" id="btnTransferir" class="btn-action">
+          <i class="fas fa-paper-plane"></i>
+          Transferir
+        </button>
+        <button type="button" id="btnHistorial" class="btn-action">
+          <i class="fas fa-history"></i>
+          Historial
+        </button>
+      </section>
+
+      <section class="transactions" id="transactionList">
+        <h3>📋 Últimos Movimientos</h3>
+        <div class="transaction-container" id="transactionContainer">
+          <!-- Las transacciones se cargarán dinámicamente -->
+        </div>
+      </section>
+
+      <!-- Modal para ingresar dinero -->
+      <div id="modalIngresar" class="modal hidden">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h3>💰 Ingresar Dinero</h3>
+            <button type="button" class="cerrar-modal">&times;</button>
+          </div>
+          <form id="formIngreso">
+            <div class="form-group">
+              <label for="montoIngreso">Monto a ingresar (ARS):</label>
+              <input
+                type="number"
+                id="montoIngreso"
+                placeholder="Ej: 5000"
+                min="1"
+                step="any"
+                required
+              />
+            </div>
+            <div class="modal-actions">
+              <button type="submit" id="confirmarIngreso" class="btn-primary">Confirmar</button>
+              <button type="button" class="btn-cancelar cerrar-modal">Cancelar</button>
+            </div>
+          </form>
         </div>
       </div>
-    </header>
 
-    <section class="actions">
-      <button id="btnIngresar">
-        <i class="fas fa-arrow-down"></i>
-        Ingresar Dinero
-      </button>
-      <button id="btnTransferir">
-        <i class="fas fa-exchange-alt"></i>
-        Transferir
-      </button>
-      <button id="btnHistorial">
-        <i class="fas fa-history"></i>
-        Historial
-      </button>
-    </section>
-
-    <section class="transactions" id="transactionList">
-      <h3>Últimas Transacciones</h3>
-      <div class="transaction-container">
-        <!-- Las transacciones se cargarán dinámicamente -->
+      <!-- Modal para transferir -->
+      <div id="modalTransferir" class="modal hidden">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h3>💸 Transferir Dinero</h3>
+            <button type="button" class="cerrar-modal">&times;</button>
+          </div>
+          <form id="formTransferencia">
+            <div class="form-group">
+              <label for="destinatario">Destinatario o Alias:</label>
+              <input type="text" id="destinatario" placeholder="Ej: maria.mp / Lucas" required />
+            </div>
+            <div class="form-group">
+              <label for="montoTransferencia">Monto a transferir (ARS):</label>
+              <input
+                type="number"
+                id="montoTransferencia"
+                placeholder="Ej: 2000"
+                min="1"
+                step="any"
+                required
+              />
+            </div>
+            <div class="modal-actions">
+              <button type="submit" id="confirmarTransferencia" class="btn-primary">
+                Transferir
+              </button>
+              <button type="button" class="btn-cancelar cerrar-modal">Cancelar</button>
+            </div>
+          </form>
+        </div>
       </div>
-    </section>
 
-    <!-- Modal para ingresar dinero -->
-    <div id="modalIngresar" class="modal">
-      <div class="modal-content">
-        <h3>Ingresar Dinero</h3>
-        <input type="number" id="montoIngreso" placeholder="Monto a ingresar">
-        <button id="confirmarIngreso">Confirmar</button>
-        <button class="cerrar-modal">Cancelar</button>
+      <!-- Modal de Historial Completo -->
+      <div id="modalHistorial" class="modal hidden">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h3>📜 Historial y Gestión de Cuenta</h3>
+            <button type="button" class="cerrar-modal">&times;</button>
+          </div>
+          <p class="modal-subtitle">Podés reiniciar el saldo y los movimientos de tu billetera:</p>
+          <div class="modal-actions-space">
+            <button type="button" id="btnResetBilletera" class="btn-danger">
+              Reiniciar Billetera a $0
+            </button>
+            <button type="button" class="btn-cancelar cerrar-modal">Cerrar</button>
+          </div>
+        </div>
       </div>
     </div>
 
-    <!-- Modal para transferir -->
-    <div id="modalTransferir" class="modal">
-      <div class="modal-content">
-        <h3>Transferir Dinero</h3>
-        <input type="text" id="destinatario" placeholder="Destinatario">
-        <input type="number" id="montoTransferencia" placeholder="Monto a transferir">
-        <button id="confirmarTransferencia">Transferir</button>
-        <button class="cerrar-modal">Cancelar</button>
-      </div>
-    </div>
-  </div>
-  <script src="./js/app.js"></script>
-</body>
-
+    <script type="module" src="./js/script.js"></script>
+  </body>
 </html>
